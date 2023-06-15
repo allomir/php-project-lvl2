@@ -5,8 +5,8 @@ Thumbs.db
 # VS code
 *.code-workspace
 # My work files
-/_faq-journal.txt
-/_pub
+/faq-journal.txt
+/buffer
 #google
 *.drivedownload
 #phpunit
