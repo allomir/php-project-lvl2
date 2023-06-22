@@ -11,6 +11,7 @@ Thumbs.db
 /bin/**/_*
 /tests/**/!!*
 /tests/**/_*
+/_*
 /!faq-journal.txt
 /!buffer
 #google

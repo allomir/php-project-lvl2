@@ -22,7 +22,8 @@
             "Hexlet\\Code\\Tests\\": "tests"
         },
         "files": [
-            "tests/Functions/StandardAsserts.php"
+            "tests/Functions/StandardByPHPTest.php",
+            "tests/Functions/StandardByWebmozartTest.php"
         ]
     },
     "require-dev": {
