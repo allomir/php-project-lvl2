@@ -7,33 +7,33 @@
 - Vendor: [allomir](https://github.com/allomir)
 - Project: [php-project-lvl2](https://github.com/allomir/php-project-lvl2)
 ### Последовательность разработки
-$ git clone git@github.com:allomir/php-project-lvl2.git _project-hexlet-code-lvl2
-$ git init
-$ git add .
-$ git commit -m "start"
-$ git push
-/.gitignore
+- $ git clone git@github.com:allomir/php-project-lvl2.git _project-hexlet-code-lvl2
+- $ git init
+- $ git add .
+- $ git commit -m "start"
+- $ git push
+- /.gitignore
 
-$ composer init
-    hexlet/code
-/composer.json/$
-    "bin": ["bin/gendiff"]
-    "autoload-dev": {
+- $ composer init
+    #### hexlet/code
+- /composer.json/$
+    #### "bin": ["bin/gendiff"]
+    #### "autoload-dev": {
         "psr-4": {
             "Hexlet\\Code\\Tests": "tests/"
         }
     },
 
-$ composer require --dev "squizlabs/php_codesniffer"
-$ composer require --dev phpunit/phpunit
+- $ composer require --dev "squizlabs/php_codesniffer"
+- $ composer require --dev phpunit/phpunit
 
-/bin/gendiff
-/tests
-/src
-/README.md
+- /bin/gendiff
+- /tests
+- /src
+- /README.md
 
-/makefile
+- /makefile
 
-/.github/workflows/action-make.yml
-/README.md/: badge action-make
+- /.github/workflows/action-make.yml
+- /README.md/: badge action-make
 
