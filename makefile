@@ -1,4 +1,4 @@
-# project
+# Project
 script-php:
 	php src/script.php
 
@@ -8,15 +8,15 @@ script-cli:
 validate:
 	composer validate
 
-# packajes
+# Packajes
 install:
 	composer install
 
-# packajes. Тесты
+# Testing
 lint:
 	composer --verbose exec phpcs -- --standard=PSR12 src bin tests
 
-testing:
+test-byPHP:
 	php tests/tests.php
 
 phpunit:
