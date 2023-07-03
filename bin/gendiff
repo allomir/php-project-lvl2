@@ -1,0 +1,62 @@
+#!/usr/bin/env php
+
+<?php
+### настройка проекта. namespace. Настройка docopt. Подключение
+require(__DIR__ . '/../vendor/docopt/docopt/src/docopt.php');
+
+### настройка проекта. namespace. Список загрузки
+require(__DIR__ . '/../src/gendiff.php');
+
+## Задача. 
+### Данные. Проверка docopt
+
+$doc = <<<DOC
+gendiff
+Generate diff
+
+Usage:
+    gendiff (-h|--help)
+    gendiff (-v|--version)
+    gendiff [--format <fmt>] <firstFile> <secondFile>
+    
+Options:
+    -h --help       Show this screen
+    -v --version    Show version
+    --format <fmt>  Report format [default: stylish]
+
+DOC;
+
+$params = array(
+    'argv'=>array_slice($_SERVER['argv'], 1),
+    'help'=>false,
+    'version'=>null,
+    'optionsFirst'=>false,
+);
+$args = Docopt::handle($doc, $params);
+
+### Задача. Данные: Получение
+
+$file_1_path = $params['argv'][0];
+is_file($file_1_path) ?: $file_1_path = __DIR__ . '/' . $file_1_path;
+
+if (!is_file($file_1_path)) {
+    $params['argv'][0] = [];
+    throw new \exception('ERROR: файл ' . $file_1_path);
+}
+
+$file_2_path = $params['argv'][1];
+is_file($file_2_path) ?: $file_2_path = __DIR__ . '/' . $file_2_path;
+
+if (!is_file($file_2_path)) {
+    $params['argv'][1] = [];
+    throw new \exception('ERROR: файл ' . $file_2_path);
+}
+
+### Задача. Алгоритм (решение)
+
+$gendiff_result = \Hexlet\Code\gendiff($file_1_path, $file_2_path);
+
+### Задача. Результаты: показ, хранение
+
+echo 'Результат сравненение файлы' . PHP_EOL;
+print_r($gendiff_result);

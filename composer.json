@@ -2,6 +2,7 @@
     "name": "hexlet/code",
     "description": "project для вычисление отличий данных в двух файлах",
     "type": "project",
+    "bin": ["bin/gendiff"],
     "license": "MIT",
     "authors": [
         {
@@ -14,7 +15,8 @@
             "Hexlet\\Code\\": "src/"
         },
         "files": [
-            "src/Functions/Standard.php"
+            "src/Functions/Standard.php",
+            "src/gendiff.php"
         ]
     },
     "autoload-dev": {
@@ -30,5 +32,8 @@
         "squizlabs/php_codesniffer": "^3.7",
         "phpunit/phpunit": "^9.6",
         "webmozart/assert": "^1.11"
+    },
+    "require": {
+        "docopt/docopt": "^1.0"
     }
 }

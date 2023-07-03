@@ -6,7 +6,8 @@
 ### Характеристики
 - Vendor: [allomir](https://github.com/allomir)
 - Project: [php-project-lvl2](https://github.com/allomir/php-project-lvl2)
-### Последовательность разработки
+
+### Настройка проекта (последовательность)
 - $ git clone git@github.com:allomir/php-project-lvl2.git _project-hexlet-code-lvl2
 - $ git init
 - $ git add .
@@ -37,3 +38,19 @@
 - /.github/workflows/action-make.yml
 - /README.md/: badge action-make
 
+### Задание 1.1. Скрипт Файлы данные сравнение
+- $ composer require docopt/docopt
+
+- /bin/gendiff
+    - Скрипт Файлы данные сравнение
+    - настройка docopt, данные получение, решение, результат массив
+
+### Задание 1.2. Функция файлы данные сравнение
+- /src/script.php
+    - функция запуск
+- /src/gendiff.php
+    - функция файлы данные сравнение
+- /src/Functions/Standard.php
+    - функция данные массив сравнение
+    - функции данные и формат массив-характеристики в массив элементы
+    - функции данные и формат массив-характеристики в массив элементы
