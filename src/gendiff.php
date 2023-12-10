@@ -3,25 +3,24 @@
 ### Настройка проекта. namespace. namespace скрипты, модули
 namespace Hexlet\Code;
 
-## Задача. Файлы Данные json сравнение
+use function Hexlet\Code\Functions\Standard\getTabDiff;
+use function Hexlet\Code\Functions\Standard\encodeTabToString__gendiff;
 
-function gendiff(string $file_1_path, string $file_2_path): array
+## Задача-функция. Файлы Данные json сравнение {представление: string}
+
+function gendiff(string $file_1_path, string $file_2_path)
 {
-    require_once(__DIR__ . '/../src/Functions/Standard.php');
+    ### Задача. Данные: Получение
 
-    $gendiff_result = [];
+    $file_1_data = \json_decode(file_get_contents($file_1_path), true);
+    $file_2_data = \json_decode(file_get_contents($file_2_path), true);
 
-    if (!isset($file_1_path)) {
-        return $gendiff_result;
-    }
-    if (!isset($file_2_path)) {
-        return $gendiff_result;
-    }
+    ### Задача. Вариант-Алгоритм (решение) 
 
-    $file_1_data_array = json_decode(file_get_contents($file_1_path), true);
-    $file_2_data_array = json_decode(file_get_contents($file_2_path), true);
+    $gendiff_result = getTabDiff($file_1_data, $file_2_data);
 
-    $gendiff_result = \Hexlet\Code\Functions\Standard\gendiffData($file_1_data_array, $file_2_data_array);
+    ### Задача. Результаты: представление
 
-    return $gendiff_result;
+    return encodeTabToString__gendiff($gendiff_result);
 }
+

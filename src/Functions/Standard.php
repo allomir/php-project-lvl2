@@ -5,131 +5,155 @@ namespace Hexlet\Code\Functions\Standard;
 
 ## Список 1. Функции. Стандартные. Данные, виды: разные, Данные, действия: разные
 
-function getListNumbersAsWords(): array
+/**
+ * Название: Список характеристики уникальные из всех элементов
+ * Алгоритм:
+ * - цикл слияние характеристик в новый список от первого до последнего элементов 
+ */
+function getListPropertiesFromListIDs(array ...$listIDs): array
 {
-    # Данные, виды: список индексированный массив
-    # Алгоритм (действия):
-        # массивы: хранение
-    # результат: Данные: массивы список (индексированный массив)
-
-    $arr = [
-        1 => "one",
-        2 => "two",
-        3 => "three",
-        4 => "four",
-        5 => "five",
-        6 => "six",
-        7 => "seven",
-        8 => "eight",
-        9 => "nine",
-        0 => "zero",
-    ];
-
-    return $arr;
-}
-
-function getNumberAsWord(int $num): string
-{
-    # Данные, виды: массивы
-    # Алгоритм (действия): получение, фильтрация
-    # результат: строка, название числа
-
-    $arr = getListNumbersAsWords();
-    $result = $arr[$num] ?? '';
-
-    return $result;
-}
-
-## Список 2. Функции. Данные и форматы. Данные, виды: разные, Данные, действия: разные
-
-### Название
-### (Functions/DataFormats.php/$formatTabStringToTabArray)
-function formatStringsToTabArray(string $strings): array
-{
-    # Данные, виды: строки список характеристики
-    # Алгоритм (действия):
-        # чтение строки
-        # преобразование строки в массив характеристика название значение
-        # хранение характеристики в массив
-    # результат: индексированный массив список характеристики
-
-    $strings_array = explode($strings, "\n");
-    $tab_array = [];
-    foreach ($strings_array as [$string]) {
-        $tab_array[] = explode($string, ': ');
+    $properties = [];
+    foreach($listIDs as $list) {
+        $properties = [...$properties, ...array_keys($list)];
     }
 
-    return $tab_array;
+    return array_unique($properties);
 }
 
-### json_decode()
-    # функции php стандартные
-
-### Название
-### (Functions/DataFormats/formatArraysIdToItems)
-function formatArraysIdToItems(array $array, string $entry = 'name'): array
+function getListProperties(array ...$lists): array
 {
-    $result = [];
-
-    foreach ($array as $key => $value) {
-        $result[] = ["$entry" => $key, "value" => $value];
+    $properties = [];
+    foreach($lists as $list) {
+        $properties = [...$properties, ...$list];
     }
 
-    return $result;
+    return array_unique($properties);
 }
 
-## Функция. Данные и форматы. Массивы сравнение 
-function gendiffData(array $data_1, array $data_2): array
+function formatListIDToTab(array $listID) {
+    $propertyNew = [];
+}
+
+function getStatuses()
 {
-    # Задани: Массивы сравнение (Данные, виды: массивы. Данные, действия: сравнение)
-    # Данные, виды: массивы ассоциативные характеристика -> значение
-    # Алгоритм (действия):
-        # характеристика, сущ-е (поиск) из файл 2 в 1 файл: false
-            # result: [характеристика, значение, +]
-        # характеристика, сущ-е: true (связь выше). значения ===: true
-        # характеристика, сущ-е: true (связь выше). значения !==: true
-    # результат: массив ассоциативный список [характеристика, значение, статус]
-    $status_eq = '';
-    $status_new = '+';
-    $status_del = '-';
+    return ['changes_add' => '+', 'changes_delete' => '-', 'changes_no' => ' '];
+}
 
-    $data_eq = array_intersect_key($data_1, $data_2);
-    $data_eq = \Hexlet\Code\Functions\Standard\formatArraysIdToItems($data_eq);
+### Название: Сравнение множество свойства
+/**
+ * Название: таблица элементы-свойства
+ * Алгоритм:
+ * - функция список свойства
+ * - функция список статусы
+ * - tab свойства new относительно std (сравнение)
+ * - свойства удаленные в std - хранение как свойства в new со статусом delete
+ * - свойства с разными значениями в new и std - хранение обоих со статусами delete и add
+ * - сортировка по названию свойства ksort
+ */
+function getTabDiff(array $list_std, array $list_new): array
+{
+    $properties = getListPropertiesFromListIDs($list_std, $list_new);
+    sort($properties);
 
-    $data_eq_result = [];
-    foreach ($data_eq as $item) {
-        $item_result = $item;
-        $value = $item['value'];
-        $value_1 = $data_1[$item['name']];
-        $value_2 = $data_2[$item['name']];
+    $statuses = getStatuses();
 
-        if ($value_2 === $value_1) {
-            $item_result['status'] = $status_eq;
-            $data_eq_result[] = $item_result;
-        } else {
-            $item_result['value'] = $value_1;
-            $item_result['status'] = $status_del;
-            $data_eq_result[] = $item_result;
-            $item_result['value'] = $value_2;
-            $item_result['status'] = $status_new;
-            $data_eq_result[] = $item_result;
+    $properties_diff = [];
+    foreach($properties as $property) {
+
+        if (!isset($list_std[$property]) && isset($list_new[$property])) {
+            $properties_diff[] = ["status" => $statuses['changes_add'], 'name' => $property, 'value' => $list_new[$property]];
+        }
+
+        if (isset($list_std[$property]) && !isset($list_new[$property])) {
+            $properties_diff[] = ["status" => $statuses['changes_delete'], 'name' => $property, 'value' => $list_std[$property]];
+        }
+
+        if (isset($list_std[$property]) && isset($list_new[$property])) {
+            if($list_std[$property] === $list_new[$property]) {
+                $properties_diff[] = ["status" => $statuses['changes_no'], 'name' => $property, 'value' => $list_new[$property]];
+            } elseif ($list_std[$property] !== $list_new[$property]) {
+                $properties_diff[] = ["status" => $statuses['changes_delete'], 'name' => $property, 'value' => $list_std[$property]];
+                $properties_diff[] = ["status" => $statuses['changes_add'], 'name' => $property, 'value' => $list_new[$property]];
+            }
         }
     }
 
-    $data_new = array_diff_key($data_1, $data_2);
-    $data_new = \Hexlet\Code\Functions\Standard\formatArraysIdToItems($data_new);
-    $data_new = array_map(function ($item) use ($status_del) {
-        $item['status'] = $status_del;
-        return $item;
-    }, $data_new);
-
-    $data_del = array_diff_key($data_2, $data_1);
-    $data_del = \Hexlet\Code\Functions\Standard\formatArraysIdToItems($data_del);
-    $data_del = array_map(function ($item) use ($status_new) {
-        $item['status'] = $status_new;
-        return $item;
-    }, $data_del);
-
-
-    return [...$data_eq_result, ...$data_new, ...$data_del];
+    return $properties_diff;
 }
+
+function encodeTabToString(array $arr_real, string $settingGlue = ' ', string $settingBkt = '', string $settingRowFormat = ''): string
+{
+    $arr = encodeBoolToString__tab($arr_real);
+
+    $result = '';
+    foreach ($arr as $row_arr) {
+        $row = '';
+        switch ($settingRowFormat) {
+            case 'gendiff':
+                $row = $row_arr['status'] . ' ' . $row_arr['name'] . ': ' . $row_arr['value'];
+                break;
+            default:
+                $row = implode($settingGlue, $row_arr);
+                break;
+        }
+
+        switch ($settingBkt) {
+            case '[rows]':
+                $row = '[' . $row . ']';
+                break;
+            case '{rows}':
+                $row = '{' . $row . '}';
+                break;
+            }
+
+        $result .= "$row" . "\n";
+    }
+
+    switch ($settingBkt) {
+        case '[]':
+        case '[rows]':
+            $result = '[' . "\n" . $result . ']';
+            break;
+        case '{}':
+        case '{rows}':
+            $result = '{' . "\n" . $result . '}';
+            break;
+        }
+
+    return $result;
+}
+
+function encodeTabToString__gendiff(array $arr_real): string
+{
+    return encodeTabToString($arr_real, ' ', '{}', 'gendiff');
+}
+
+function encodeBoolToString(bool $bool_real): string
+{
+    $arr_bools = [
+        false => 'false',
+        true => 'true',
+    ];
+
+    return $arr_bools[$bool_real];
+}
+
+function encodeBoolToString__tab($var_real)
+{
+    if (is_bool($var_real)) {
+        return encodeBoolToString($var_real);
+    }
+
+    if (is_array($var_real)) {
+        $arr = array_map(function ($value) {
+            return encodeBoolToString__tab($value);
+        }, $var_real);
+
+        return $arr;
+    }
+
+    return $var_real;
+}
+
+
+
