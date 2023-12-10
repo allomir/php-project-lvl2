@@ -17,7 +17,7 @@
 
 - $ composer init
     #### hexlet/code
-- /composer.json/$
+- /composer.json
     #### "bin": ["bin/gendiff"]
     #### "autoload-dev": {
         "psr-4": {
@@ -38,14 +38,14 @@
 - /.github/workflows/action-make.yml
 - /README.md/: badge action-make
 
-### Задание 1.1. Скрипт Файлы данные сравнение
+### Задание 1.1. Скрипт Файлы сравнение
 - $ composer require docopt/docopt
 
 - /bin/gendiff
     - Скрипт Файлы данные сравнение
     - настройка docopt, данные получение, решение, результат массив
 
-### Задание 1.2. Функция файлы данные сравнение
+### Задание 1.2. Функция файлы сравнение
 - /src/script.php
     - функция запуск
 - /src/gendiff.php
