@@ -1,10 +1,4 @@
-# Project
-script-php:
-	php src/script.php
-
-script-cli:
-	./bin/script
-
+# Project gendiff
 validate:
 	composer validate
 

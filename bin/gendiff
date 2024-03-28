@@ -4,9 +4,10 @@
 ### настройка проекта. Настройка docopt. Подключение
 require(__DIR__ . '/../vendor/docopt/docopt/src/docopt.php');
 
+
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
-use function Hexlet\Code\gendiff;
-use function Hexlet\Code\printTabValues;
+use function Hexlet\Code\FuncGendiff\gendiff;
+
 
 ### Настройка проекта. namespace. настройка Composer autoload. подключение Абсолютный путь с ..
 $status_result = null;
@@ -14,13 +15,16 @@ $autoload1 = __DIR__ . "/../vendor/autoload.php";
 $autoload2 = __DIR__ . "/../../../vendor/autoload.php";
 
 if (file_exists($autoload1)) {
-    $status_result = require_once($autoload1);
+    $PROJECT_status = require_once($autoload1);
 } else {
-    $status_result = require_once($autoload2);
+    $PROJECT_status = require_once($autoload2);
 }
 
+
 ## Задача. 
-### Задача. Интерфейс {docopt}, проверка интерфейса
+### Задача-часть. docopt
+    // распределение и хранение аргументов и опций в соответствии из строки запроса
+    // валидация правильного применения аргументов и опций
 
 $doc = <<<DOC
 gendiff
@@ -29,39 +33,29 @@ Generate diff
 Usage:
     gendiff (-h|--help)
     gendiff (-v|--version)
-    gendiff [--format <fmt>] <firstFile> <secondFile>
+    gendiff [--format <fmt>] [--] <firstFile> <secondFile>
     
 Options:
     -h --help       Show this screen
     -v --version    Show version
     --format <fmt>  Report format [default: stylish]
-
+    --              separate argument value from options
 DOC;
 
 $params = array(
-    'argv'=>array_slice($_SERVER['argv'], 1),
-    'help'=>false,
-    'version'=>null,
-    'optionsFirst'=>false,
+    'argv' => array_slice($_SERVER['argv'], 1),
+    'help' => true,
+    'version' => '0.7.0',
+    'optionsFirst' => true,
 );
 $args = Docopt::handle($doc, $params);
 
-### Задача. Данные: Проверка
 
-    $file_1_path = $params['argv'][0];
-    if (!is_file($file_1_path)) {
-        throw new \exception('ERROR: файл ' . $file_1_path);
-    }
-    
-    $file_2_path = $params['argv'][1];
-    if (!is_file($file_2_path)) {
-        throw new \exception('ERROR: файл ' . $file_2_path);
-    }
+### Задача-часть. Характеристики проект-задача, входящие данные FS: процесс-получение (как есть)
+$file1_pathname = $args->args['<firstFile>'];
+$file2_pathname = $args->args['<secondFile>'];
+// $format = $format ?? 'stylish'; // разрабатывается далее
 
-### Виды функций - выбор для решения
-$gendiff_result = \Hexlet\Code\gendiff($file_1_path, $file_2_path);
 
-### Место показа, хранения результата
-echo 'Результат сравненение файлы' . PHP_EOL;
-print_r($gendiff_result);
-
+### Задача-часть. Функция Сравнение файлов.
+gendiff($file1_pathname, $file2_pathname);

@@ -6,102 +6,137 @@ namespace Hexlet\Code\Functions\Standard;
 ## Список 1. Функции. Стандартные. Данные, виды: разные, Данные, действия: разные
 
 /**
- * Название: Список характеристики уникальные из всех элементов
- * Алгоритм:
- * - цикл слияние характеристик в новый список от первого до последнего элементов 
+ * `filesystem(FS)
+ * Получение путь абс из путь относительно PWD
+ * Путь относительно содержит ./ или первый не /
+ * Если путь абс (первый /) то возвращается то же значение
  */
-function getListPropertiesFromListIDs(array ...$listIDs): array
+function getPathnameByPWD(string $pathname): string
 {
-    $properties = [];
-    foreach($listIDs as $list) {
-        $properties = [...$properties, ...array_keys($list)];
+    if (strpos($pathname, './') === 0) {
+        $pathname = $_SERVER['PWD'] . '/' . substr($pathname, 2);
+    } elseif (strpos($pathname, '/') !== 0) {
+        $pathname = $_SERVER['PWD'] . '/' . $pathname;
     }
 
-    return array_unique($properties);
+    return $pathname;
 }
 
-function getListProperties(array ...$lists): array
-{
-    $properties = [];
-    foreach($lists as $list) {
-        $properties = [...$properties, ...$list];
-    }
-
-    return array_unique($properties);
-}
-
-function formatListIDToTab(array $listID) {
-    $propertyNew = [];
-}
-
-function getStatuses()
-{
-    return ['changes_add' => '+', 'changes_delete' => '-', 'changes_no' => ' '];
-}
-
-### Название: Сравнение множество свойства
 /**
- * Название: таблица элементы-свойства
- * Алгоритм:
- * - функция список свойства
- * - функция список статусы
- * - tab свойства new относительно std (сравнение)
- * - свойства удаленные в std - хранение как свойства в new со статусом delete
- * - свойства с разными значениями в new и std - хранение обоих со статусами delete и add
- * - сортировка по названию свойства ksort
+ * Характеристика проекта. Директории WD, script
+ * Пути делаются абс.
+ * Путь проекта (рабочая директория) относительный: ../../.. относительно bin (на 3 уровня выше) если проект php
+ * Путь проекта (рабочая директория) относительный: ../../../.. относительно bin (на 4 уровня выше) если проект как зависимость
+ * Путь проекта (рабочая директория) относительный: на том же уровне относительно bin если скрипт как один файл 
  */
-function getTabDiff(array $list_std, array $list_new): array
+function getPROJECTPaths(): array
 {
-    $properties = getListPropertiesFromListIDs($list_std, $list_new);
-    sort($properties);
+    $paths = [
+        'WD__php' => [
+            'pathname' => '',
+            'path' => '',
+            'name' => '',
+        ],
+        'WD__rel' => [
+            'pathname' => '',
+            'path' => '',
+            'name' => '',
+        ],
+        'WD__script' => [
+            'pathname' => '',
+            'path' => '',
+            'name' => '',
+        ],
+        'SCRIPT' => [
+            'pathname' => '',
+            'path' => '',
+            'name' => '',
+        ]
+    ];
 
-    $statuses = getStatuses();
+    $paths['SCRIPT']['pathname'] = getPathnameByPWD($_SERVER['SCRIPT_FILENAME']);
+    $paths['SCRIPT']['name'] = basename($paths['SCRIPT']['pathname']);
+    $paths['SCRIPT']['path'] = dirname($paths['SCRIPT']['pathname']);
 
-    $properties_diff = [];
-    foreach($properties as $property) {
+    $paths['WD__php']['pathname'] = dirname($paths['SCRIPT']['pathname'], 2);
+    $paths['WD__php']['path'] = dirname($paths['SCRIPT']['pathname'], 3);
+    $paths['WD__php']['name'] = basename($paths['WD__php']['pathname']);
 
-        if (!isset($list_std[$property]) && isset($list_new[$property])) {
-            $properties_diff[] = ["status" => $statuses['changes_add'], 'name' => $property, 'value' => $list_new[$property]];
-        }
+    $paths['WD__rel']['pathname'] = dirname($paths['SCRIPT']['pathname'], 2);
+    $paths['WD__rel']['path'] = dirname($paths['SCRIPT']['pathname'], 3);
+    $paths['WD__rel']['name'] = basename($paths['WD__rel']['pathname']);
 
-        if (isset($list_std[$property]) && !isset($list_new[$property])) {
-            $properties_diff[] = ["status" => $statuses['changes_delete'], 'name' => $property, 'value' => $list_std[$property]];
-        }
+    $paths['WD__script']['pathname'] = dirname($paths['SCRIPT']['pathname']);
+    $paths['WD__script']['path'] = dirname($paths['SCRIPT']['pathname'], 1);
+    $paths['WD__script']['name'] = basename($paths['WD__script']['pathname']);
 
-        if (isset($list_std[$property]) && isset($list_new[$property])) {
-            if($list_std[$property] === $list_new[$property]) {
-                $properties_diff[] = ["status" => $statuses['changes_no'], 'name' => $property, 'value' => $list_new[$property]];
-            } elseif ($list_std[$property] !== $list_new[$property]) {
-                $properties_diff[] = ["status" => $statuses['changes_delete'], 'name' => $property, 'value' => $list_std[$property]];
-                $properties_diff[] = ["status" => $statuses['changes_add'], 'name' => $property, 'value' => $list_new[$property]];
-            }
-        }
-    }
 
-    return $properties_diff;
+    return $paths;
 }
 
-function encodeTabToString(array $arr_real, string $settingGlue = ' ', string $settingBkt = '', string $settingRowFormat = ''): string
+/**
+ * Название: Получение Список ключи уникальные из всех элементов
+ * Алгоритм:
+ * - преобразование ключей в значение 
+ * - слияние значение с помощью цикла, добавление к общей совокупности
+ * - удаление повторяющихся значений 
+ */
+function getListKeys(array ...$lists): array
+{
+    $keys = [];
+    foreach($lists as $list) {
+        $keys = [...$keys, ...array_keys($list)];
+    }
+
+    return array_unique($keys);
+}
+
+/**
+ * Название: Получение Список значения уникальные из всех элементов
+ * Алгоритм:
+ * - слияние значений с помощью цикла, добавление к общей совокупности
+ * - удаление повторяющихся значений 
+ */
+function getListValues(array ...$lists): array
+{
+    $Values = [];
+    foreach($lists as $list) {
+        $Values = [...$Values, ...$list];
+    }
+
+    return array_unique($Values);
+}
+
+function sortTab(array $tab): array
+{
+    # !TODO. Сортировка по характеристикам $file $name
+        # сортировка сделана в getTabDiff с помощью сортировки характеристик sort() и заполнения в правильном порядке
+        # но для точной и дополнительной сортировки необходимо уметь сортировать, уметь сортировать таблицы по характеристикам
+        # также позволит сделать другие сортировки
+        # выполнить на основе collection()
+    return $tab;
+}
+
+/**
+ * Формат-представление результата $arr_real ввиде строка с модвнутренние скобки и разделитель
+ * $setGlue разделитьель значений в строке: 
+ * $setBkt скобки строк и наружные: [outer] только наружные скобки
+ * 
+ * !TODO Вариант 2. encodeTabToString2 (encodeTabToStringRow, encodeTabToStringRow) модифицировать $row с помощью лямбда-функция
+ */
+function encodeTabToString(array $arr_real, string $setGlue = ' ', string $setBkt = ''): string
 {
     $arr = encodeBoolToString__tab($arr_real);
 
     $result = '';
     foreach ($arr as $row_arr) {
-        $row = '';
-        switch ($settingRowFormat) {
-            case 'gendiff':
-                $row = $row_arr['status'] . ' ' . $row_arr['name'] . ': ' . $row_arr['value'];
-                break;
-            default:
-                $row = implode($settingGlue, $row_arr);
-                break;
-        }
+        $row = implode($setGlue, $row_arr);
 
-        switch ($settingBkt) {
-            case '[rows]':
+        switch ($setBkt) {
+            case '[]':
                 $row = '[' . $row . ']';
                 break;
-            case '{rows}':
+            case '{}':
                 $row = '{' . $row . '}';
                 break;
             }
@@ -109,25 +144,24 @@ function encodeTabToString(array $arr_real, string $settingGlue = ' ', string $s
         $result .= "$row" . "\n";
     }
 
-    switch ($settingBkt) {
+    switch ($setBkt) {
         case '[]':
-        case '[rows]':
-            $result = '[' . "\n" . $result . ']';
+        case '[outer]':
+            $result = '[' . "\n" . $result . ']\n';
             break;
         case '{}':
-        case '{rows}':
-            $result = '{' . "\n" . $result . '}';
+        case '{outer}':
+            $result = '{' . "\n" . $result . '}\n';
             break;
         }
 
     return $result;
 }
 
-function encodeTabToString__gendiff(array $arr_real): string
-{
-    return encodeTabToString($arr_real, ' ', '{}', 'gendiff');
-}
-
+/**
+ * Формат-представление данных булевых ввиде текста
+ * null всегда как '' пустая строка
+ */
 function encodeBoolToString(bool $bool_real): string
 {
     $arr_bools = [
@@ -138,21 +172,27 @@ function encodeBoolToString(bool $bool_real): string
     return $arr_bools[$bool_real];
 }
 
-function encodeBoolToString__tab($var_real)
+/**
+ * Рекурсивная функция
+ * Формат-представление данных булевых ввиде текста в структурах строка или массив
+ * null всегда как '' пустая строка
+ * Возвращает и принимает mix строки и массивы
+ */
+function encodeBoolToString__tab($tab_real)
 {
-    if (is_bool($var_real)) {
-        return encodeBoolToString($var_real);
+    if (is_bool($tab_real)) {
+        return encodeBoolToString($tab_real);
     }
 
-    if (is_array($var_real)) {
+    if (is_array($tab_real)) {
         $arr = array_map(function ($value) {
             return encodeBoolToString__tab($value);
-        }, $var_real);
+        }, $tab_real);
 
         return $arr;
     }
 
-    return $var_real;
+    return $tab_real;
 }
 
 
