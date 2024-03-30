@@ -8,7 +8,18 @@ install:
 
 # Testing
 lint:
-	composer --verbose exec phpcs -- --standard=PSR12 src bin tests
+	composer --verbose exec -- phpcs --standard=PSR12 \
+	src/FuncGendiff.php \
+	bin/gendiff tests \
+	src/Functions/Standard.php \
+	src/Functions/Diff.php
+
+lint-fix:
+	composer --verbose exec -- phpcbf --standard=PSR12 \
+	src/FuncGendiff.php \
+	bin/gendiff tests \
+	src/Functions/Standard.php \
+	src/Functions/Diff.php
 
 test-byPHP:
 	php tests/tests.php

@@ -27,7 +27,7 @@ function getPathnameByPWD(string $pathname): string
  * Пути делаются абс.
  * Путь проекта (рабочая директория) относительный: ../../.. относительно bin (на 3 уровня выше) если проект php
  * Путь проекта (рабочая директория) относительный: ../../../.. относительно bin (на 4 уровня выше) если проект как зависимость
- * Путь проекта (рабочая директория) относительный: на том же уровне относительно bin если скрипт как один файл 
+ * Путь проекта (рабочая директория) относительный: на том же уровне относительно bin если скрипт как один файл
  */
 function getPROJECTPaths(): array
 {
@@ -77,14 +77,14 @@ function getPROJECTPaths(): array
 /**
  * Название: Получение Список ключи уникальные из всех элементов
  * Алгоритм:
- * - преобразование ключей в значение 
+ * - преобразование ключей в значение
  * - слияние значение с помощью цикла, добавление к общей совокупности
- * - удаление повторяющихся значений 
+ * - удаление повторяющихся значений
  */
 function getListKeys(array ...$lists): array
 {
     $keys = [];
-    foreach($lists as $list) {
+    foreach ($lists as $list) {
         $keys = [...$keys, ...array_keys($list)];
     }
 
@@ -95,12 +95,12 @@ function getListKeys(array ...$lists): array
  * Название: Получение Список значения уникальные из всех элементов
  * Алгоритм:
  * - слияние значений с помощью цикла, добавление к общей совокупности
- * - удаление повторяющихся значений 
+ * - удаление повторяющихся значений
  */
 function getListValues(array ...$lists): array
 {
     $Values = [];
-    foreach($lists as $list) {
+    foreach ($lists as $list) {
         $Values = [...$Values, ...$list];
     }
 
@@ -119,9 +119,9 @@ function sortTab(array $tab): array
 
 /**
  * Формат-представление результата $arr_real ввиде строка с модвнутренние скобки и разделитель
- * $setGlue разделитьель значений в строке: 
+ * $setGlue разделитьель значений в строке:
  * $setBkt скобки строк и наружные: [outer] только наружные скобки
- * 
+ *
  * !TODO Вариант 2. encodeTabToString2 (encodeTabToStringRow, encodeTabToStringRow) модифицировать $row с помощью лямбда-функция
  */
 function encodeTabToString(array $arr_real, string $setGlue = ' ', string $setBkt = ''): string
@@ -139,7 +139,7 @@ function encodeTabToString(array $arr_real, string $setGlue = ' ', string $setBk
             case '{}':
                 $row = '{' . $row . '}';
                 break;
-            }
+        }
 
         $result .= "$row" . "\n";
     }
@@ -153,7 +153,7 @@ function encodeTabToString(array $arr_real, string $setGlue = ' ', string $setBk
         case '{outer}':
             $result = '{' . "\n" . $result . '}\n';
             break;
-        }
+    }
 
     return $result;
 }
@@ -194,6 +194,3 @@ function encodeBoolToString__tab($tab_real)
 
     return $tab_real;
 }
-
-
-

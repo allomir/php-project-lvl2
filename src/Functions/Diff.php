@@ -15,8 +15,8 @@ function genDiff(string $file1_path, string $file2_path): array
 
     $file1_arr = \json_decode(file_get_contents($file1_path), true);
     $file2_arr = \json_decode(file_get_contents($file2_path), true);
-    
-    ### Задача. Вариант-Алгоритм (решение) 
+
+    ### Задача. Вариант-Алгоритм (решение)
 
     $properties = getListKeys($file1_arr, $file2_arr);
     sort($properties);
@@ -24,8 +24,7 @@ function genDiff(string $file1_path, string $file2_path): array
     $statuses = getDiffStatuses();
 
     $properties_diff = [];
-    foreach($properties as $property) {
-
+    foreach ($properties as $property) {
         if (!isset($file1_arr[$property]) && isset($file2_arr[$property])) {
             $properties_diff[] = ["status" => $statuses['changes_add'], 'name' => $property, 'value' => $file2_arr[$property]];
         }
@@ -35,7 +34,7 @@ function genDiff(string $file1_path, string $file2_path): array
         }
 
         if (isset($file1_arr[$property]) && isset($file2_arr[$property])) {
-            if($file1_arr[$property] === $file2_arr[$property]) {
+            if ($file1_arr[$property] === $file2_arr[$property]) {
                 $properties_diff[] = ["status" => $statuses['changes_no'], 'name' => $property, 'value' => $file2_arr[$property]];
             } elseif ($file1_arr[$property] !== $file2_arr[$property]) {
                 $properties_diff[] = ["status" => $statuses['changes_delete'], 'name' => $property, 'value' => $file1_arr[$property]];
@@ -46,5 +45,3 @@ function genDiff(string $file1_path, string $file2_path): array
 
     return $properties_diff;
 }
-
-

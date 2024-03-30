@@ -25,7 +25,7 @@ function encodeTabToString__(array $arr_real, string $setGlue = ' ', string $set
             case '{}':
                 $row = '{' . $row . '}';
                 break;
-            }
+        }
 
         $result .= "$row" . "\n";
     }
@@ -39,14 +39,14 @@ function encodeTabToString__(array $arr_real, string $setGlue = ' ', string $set
         case '{outer}':
             $result = '{' . "\n" . $result . "}\n";
             break;
-        }
+    }
 
-    return $result;    
+    return $result;
 }
 
 /**
  * Выбор функции для формат-структура (представление) данных
- * 
+ *
  */
 function encodeTabToFormats(array $gendiff_result, $format = 'string'): string
 {
@@ -62,7 +62,7 @@ function encodeTabToFormats(array $gendiff_result, $format = 'string'): string
             $result = $gendiff_result;
             break;
     }
-    
+
     return $result;
 }
 
@@ -87,7 +87,7 @@ function getWD(string $mode = 'WD__php'): array
  * - кроме выполнения, те не содержит Composer autoload подключение
  * - кроме docopt
  * - кроме Характеристики проект-задача, входящие данные FS: процесс-получение
- * 
+ *
  * Одноименная функция \Diff\genDiff относится к процесс-обработка данных as gendiff_process
  */
 function gendiff($file1_pathname, $file2_pathname, $format = 'string')
@@ -120,4 +120,3 @@ function gendiff($file1_pathname, $file2_pathname, $format = 'string')
     ### Задача-часть. Результат (данные исходящие): хранение FS (файл), показ
     print_r($gendiff_toString);
 }
-
