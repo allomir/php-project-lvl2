@@ -1,4 +1,5 @@
 name: action-make
+
 on:
   push:
     branches: [ "main" ]
@@ -33,6 +34,6 @@ jobs:
 
     - name: Run linter
       run: make lint
-      
+
     - name: Run phpunit
       run: make phpunit

@@ -1,0 +1,31 @@
+<?php
+
+namespace Hexlet\Code\Tests;
+
+### Настройка проекта. namespace. настройка Composer autoload. список загрузки
+use PHPUnit\Framework\TestCase;
+
+use function Hexlet\Code\FuncGendiff\gendiff;
+
+## Задача-тест.
+class FuncGendiffTest extends TestCase
+{
+    public $diffExpected = "{
+- follow: false
+  host: hexlet.io
+- proxy: 123.234.53.22
+- timeout: 50
++ timeout: 20
++ verbose: true
+}\n";
+
+    public function testGendiff(): void
+    {
+        $this->expectOutputString($this->diffExpected);
+
+        echo gendiff(
+            __DIR__ . "/" . "fixtures/_file1.json",
+            __DIR__ . "/" . "fixtures/_file2.json",
+        );
+    }
+}
