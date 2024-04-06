@@ -12,7 +12,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Hexlet\\Code\\": "src/"
+            "Hexlet\\Code\\": "src"
         },
         "files": [
             "src/Functions/Standard.php",
@@ -23,16 +23,12 @@
     "autoload-dev": {
         "psr-4": {
             "Hexlet\\Code\\Tests\\": "tests"
-        },
-        "files": [
-            "tests/Functions/StandardByPHPTest.php",
-            "tests/Functions/StandardByWebmozartTest.php"
-        ]
+        }
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.7",
-        "phpunit/phpunit": "^9.6",
-        "webmozart/assert": "^1.11"
+        "webmozart/assert": "^1.11",
+        "phpunit/phpunit": "^9.6"
     },
     "require": {
         "docopt/docopt": "^1.0"

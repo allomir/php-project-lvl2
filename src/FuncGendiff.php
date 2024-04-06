@@ -2,6 +2,7 @@
 
 namespace Hexlet\Code\FuncGendiff;
 
+### Настройка проекта. namespace. настройка Composer autoload. список загрузки
 use function Hexlet\Code\Functions\Standard\encodeBoolToString__tab;
 use function Hexlet\Code\Functions\Standard\getPROJECTPaths;
 use function Hexlet\Code\Functions\Diff\genDiff as gendiff_process;

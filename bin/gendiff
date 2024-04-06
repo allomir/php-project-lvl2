@@ -4,10 +4,8 @@
 ### настройка проекта. Настройка docopt. Подключение
 require(__DIR__ . '/../vendor/docopt/docopt/src/docopt.php');
 
-
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
 use function Hexlet\Code\FuncGendiff\gendiff;
-
 
 ### Настройка проекта. namespace. настройка Composer autoload. подключение Абсолютный путь с ..
 $status_result = null;
@@ -53,12 +51,10 @@ $params = array(
 );
 $args = Docopt::handle($doc, $params);
 
-
 ### Задача-часть. Характеристики проект-задача, входящие данные FS: процесс-получение (как есть)
 $file1_pathname = $args->args['<firstFile>'];
 $file2_pathname = $args->args['<secondFile>'];
 // $format = $format ?? 'stylish'; // разрабатывается далее
-
 
 ### Задача-часть. Функция Сравнение файлов.
 gendiff($file1_pathname, $file2_pathname);
