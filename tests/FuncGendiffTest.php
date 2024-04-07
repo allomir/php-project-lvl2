@@ -24,8 +24,8 @@ class FuncGendiffTest extends TestCase
         $this->expectOutputString($this->diffExpected);
 
         echo gendiff(
-            __DIR__ . "/" . "fixtures/_file1.json",
-            __DIR__ . "/" . "fixtures/_file2.json",
+            __DIR__ . "/" . "fixtures/file1.json",
+            __DIR__ . "/" . "fixtures/file2.json",
         );
     }
 }
