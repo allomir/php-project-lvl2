@@ -32,13 +32,13 @@ function getProjectName()
 }
 
 /**
- * Script (файл-исполнитель интерпритируемый, bin-file, точка входа, index.php) 
+ * Script (файл-исполнитель интерпритируемый, bin-file, точка входа, index.php)
  * Script.Path состоит WD/(src | bin), кроме vendor/
  *      для проект-php
  *      script.Path относительно PWD: $_SERVER['PWD'] $_SERVER['SCRIPT_FILENAME']
  *      script.Path относительно PWD (интерпретатор php внешний): $_SERVER['argv'][0] арг-0
  *          $_SERVER['argv'][0] соответствует $_SERVER['SCRIPT_FILENAME']
- *          аналог script.Pathname: __FILE__ 
+ *          аналог script.Pathname: __FILE__
  *              только внутри скрипта
  * Script.Path состоит projectCurrent/vendor/projectVendor/projectName/(src | bin)
  *      для проект-зависимость
