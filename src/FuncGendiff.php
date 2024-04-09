@@ -4,7 +4,6 @@ namespace Hexlet\Code\FuncGendiff;
 
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
 use function Hexlet\Code\Functions\Standard\encodeBoolToString__tab;
-use function Hexlet\Code\Functions\Standard\getPROJECTPaths;
 use function Hexlet\Code\Functions\Diff\genDiff as gendiff_process;
 use function Hexlet\Code\Functions\Standard\getPathnameByPWD;
 
@@ -68,20 +67,6 @@ function encodeTabToFormats(array $gendiff_result, $format = 'string'): string
 }
 
 /**
- * WD: процесс-получение pathname
- * Предназначение: для дополнительная директория для поиска файлов относительно WD
- * если проект-php структуры "WD__php" (по умолчанию)
- * если проект-зависимость "WD__rel"
- * если файл-скрипт отдельный "WD__script"
- */
-function getWD(string $mode = 'WD__php'): array
-{
-    $WD = getPROJECTPaths()[$mode];
-
-    return $WD;
-}
-
-/**
  * Функция-скрипт (функция подобие скрипт, крупная функция, Функция из нескольких процессов)
  * Структура подобие скрипт:
  * - Аргументы как у скрипта, определяют внутренние опции
@@ -98,7 +83,6 @@ function gendiff($file1_pathname, $file2_pathname, $format = 'string')
     $file2_pathname = getPathnameByPWD($file2_pathname);
     // $format = $format ?? 'stylish'; // разрабатывается далее
 
-
     ### Задача-часть. Данные FS: процесс-проверка
     if (!file_exists($file1_pathname)) {
         throw new \exception('Error. файл1 путь относительно WD: ' . $file1_pathname);
@@ -108,15 +92,12 @@ function gendiff($file1_pathname, $file2_pathname, $format = 'string')
         throw new \exception('Error. файл2 путь относительно WD: ' . $file2_pathname);
     }
 
-
     ### Задача-часть. Данные входящие: процесс-обработка diff
     // Результат (данные исходящие): arr
     $gendiff_result = gendiff_process($file1_pathname, $file2_pathname);
 
-
     ### Задача-часть. Результат (данные исходящие): формат-структура (представление)
     $gendiff_toString = encodeTabToFormats($gendiff_result);
-
 
     ### Задача-часть. Результат (данные исходящие): хранение FS (файл), показ
     print_r($gendiff_toString);

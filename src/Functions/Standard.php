@@ -22,57 +22,61 @@ function getPathnameByPWD(string $pathname): string
     return $pathname;
 }
 
-/**
- * Характеристика проекта. Директории WD, script
- * Пути делаются абс.
- * Путь проекта (рабочая директория) относительный: ../../.. от bin (на 3 уровня выше)
- *      для проект php
- * Путь проекта (рабочая директория) относительный: ../../../.. от bin (на 4 уровня выше)
- *      для проект как зависимость
- * Путь проекта (рабочая директория) относительный: на том же уровне от bin
- *      для скрипт как один файл
- */
-function getPROJECTPaths(): array
+function getProjectName()
 {
-    $paths = [
-        'WD__php' => [
-            'pathname' => '',
-            'path' => '',
-            'name' => '',
-        ],
-        'WD__rel' => [
-            'pathname' => '',
-            'path' => '',
-            'name' => '',
-        ],
-        'WD__script' => [
-            'pathname' => '',
-            'path' => '',
-            'name' => '',
-        ],
-        'SCRIPT' => [
-            'pathname' => '',
-            'path' => '',
-            'name' => '',
-        ]
+    $fileComposerName = 'composer.json';
+    $WDPathname = getWDpathname()['path'];
+    $fileComposerData = json_decode($WDPathname . '/' . $fileComposerName);
+
+    return $fileComposerData['name'];
+}
+
+/**
+ * Script (файл-исполнитель интерпритируемый, bin-file, точка входа, index.php) 
+ * Script.Path состоит WD/(src | bin), кроме vendor/
+ *      для проект-php
+ *      script.Path относительно PWD: $_SERVER['PWD'] $_SERVER['SCRIPT_FILENAME']
+ *      script.Path относительно PWD (интерпретатор php внешний): $_SERVER['argv'][0] арг-0
+ *          $_SERVER['argv'][0] соответствует $_SERVER['SCRIPT_FILENAME']
+ *          аналог script.Pathname: __FILE__ 
+ *              только внутри скрипта
+ * Script.Path состоит projectCurrent/vendor/projectVendor/projectName/(src | bin)
+ *      для проект-зависимость
+ *      vendor/project: composer.json.data.name = hexlet/code
+ *      ипользование script необходимо учитывать окружение $_SERVER
+ */
+function getScriptPathname($scriptPathname = ''): array
+{
+    $path = [
+        'pathname' => '',
+        'path' => '',
+        'name' => '',
     ];
 
-    $paths['SCRIPT']['pathname'] = getPathnameByPWD($_SERVER['SCRIPT_FILENAME']);
-    $paths['SCRIPT']['name'] = basename($paths['SCRIPT']['pathname']);
-    $paths['SCRIPT']['path'] = dirname($paths['SCRIPT']['pathname']);
+    $path['pathname'] = getPathnameByPWD($_SERVER['SCRIPT_FILENAME']);
+    $path['name'] = basename($paths['pathname']);
+    $path['path'] = dirname($paths['pathname']);
 
-    $paths['WD__php']['pathname'] = dirname($paths['SCRIPT']['pathname'], 2);
-    $paths['WD__php']['path'] = dirname($paths['SCRIPT']['pathname'], 3);
-    $paths['WD__php']['name'] = basename($paths['WD__php']['pathname']);
+    return $path;
+}
 
-    $paths['WD__rel']['pathname'] = dirname($paths['SCRIPT']['pathname'], 2);
-    $paths['WD__rel']['path'] = dirname($paths['SCRIPT']['pathname'], 3);
-    $paths['WD__rel']['name'] = basename($paths['WD__rel']['pathname']);
+/**
+ * Рабочая директория (WD, Путь проекта)
+ * WD.Path относительно scripts (для проект php): ../../.. от bin (на 3 уровня выше)
+ * WD.Path относительно scripts (для проект-зависимость): ../../../../.. от bin (на 5 уровня выше)
+ *      состоит дополнительно /vendor/projectVendor/projectName
+ */
+function getWDPathname(): array
+{
+    $path = [
+        'pathname' => '',
+        'path' => '',
+        'name' => '',
+    ];
 
-    $paths['WD__script']['pathname'] = dirname($paths['SCRIPT']['pathname']);
-    $paths['WD__script']['path'] = dirname($paths['SCRIPT']['pathname'], 1);
-    $paths['WD__script']['name'] = basename($paths['WD__script']['pathname']);
-
+    $path['pathname'] = dirname(getScriptPathname()['pathname'], 2);
+    $path['path'] = dirname($path['pathname'], 1);
+    $path['name'] = basename($path['pathname']);
 
     return $paths;
 }
