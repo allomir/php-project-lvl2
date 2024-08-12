@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Functions\Diff;
+namespace Hexlet\Code\Functions\DataAggregate;
 
 use function Hexlet\Code\Functions\Standard\getListKeys;
 
@@ -9,7 +9,7 @@ function getDiffStatuses()
     return ['changes_add' => '+', 'changes_delete' => '-', 'changes_no' => ' '];
 }
 
-function genDiff(string $file1_path, string $file2_path): array
+function tabDiff(string $file1_path, string $file2_path): array
 {
     ### Задача. Данные: Получение
 

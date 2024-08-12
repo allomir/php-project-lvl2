@@ -16,8 +16,8 @@
         },
         "files": [
             "src/Functions/Standard.php",
-            "src/Functions/Diff.php",
-            "src/FuncGendiff.php"
+            "src/Functions/DataAggregate.php",
+            "src/gendiff.php"
         ]
     },
     "autoload-dev": {

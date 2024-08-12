@@ -1,10 +1,10 @@
 <?php
 
-namespace Hexlet\Code\FuncGendiff;
+namespace Hexlet\Code\gendiff;
 
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
 use function Hexlet\Code\Functions\Standard\encodeBoolToString__tab;
-use function Hexlet\Code\Functions\Diff\genDiff as gendiff_process;
+use function Hexlet\Code\Functions\DataAggregate\tabDiff;
 use function Hexlet\Code\Functions\Standard\getPathnameByPWD;
 
 /**
@@ -67,7 +67,7 @@ function encodeTabToFormats(array $gendiff_result, $format = 'string'): string
 }
 
 /**
- * Функция-скрипт (функция подобие скрипт, крупная функция, Функция из нескольких процессов)
+ * Функция-скрипт (функция-скрипт, несколько функций, крупная функция)
  * Структура подобие скрипт:
  * - Аргументы как у скрипта, определяют внутренние опции
  * - кроме выполнения, те не содержит Composer autoload подключение
@@ -94,7 +94,7 @@ function gendiff($file1_pathname, $file2_pathname, $format = 'string')
 
     ### Задача-часть. Данные входящие: процесс-обработка diff
     // Результат (данные исходящие): arr
-    $gendiff_result = gendiff_process($file1_pathname, $file2_pathname);
+    $gendiff_result = tabDiff($file1_pathname, $file2_pathname);
 
     ### Задача-часть. Результат (данные исходящие): формат-структура (представление)
     $gendiff_toString = encodeTabToFormats($gendiff_result);

@@ -5,7 +5,7 @@
 require(__DIR__ . '/../vendor/docopt/docopt/src/docopt.php');
 
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
-use function Hexlet\Code\FuncGendiff\gendiff;
+use function Hexlet\Code\gendiff\gendiff;
 
 ### Настройка проекта. namespace. настройка Composer autoload. подключение Абсолютный путь с ..
 $status_result = null;
