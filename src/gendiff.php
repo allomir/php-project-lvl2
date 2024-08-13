@@ -33,9 +33,13 @@ function gendiff($file1_pathname, $file2_pathname, $format = 'string')
 
     ### Задача-часть. Данные обработка: формат strings
     $gendiff_result__formatString = SelectorEncodeTabArrToFormat(
-        $format = 'string', $tabArr = $gendiff_result, $brackets = '[]', $funcItem = function($item) {
+        $format = 'string',
+        $tabArr = $gendiff_result,
+        $brackets = '[]',
+        $funcItem = function ($item) {
             return $item['status'] . ' ' . $item['name'] . ': ' . $item['value'];
-    });
+        }
+    );
 
     ### Задача-часть. Данные хранение-просмотр: просмотр strings
     print_r($gendiff_result__formatString);

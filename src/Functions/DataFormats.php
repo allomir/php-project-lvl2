@@ -108,4 +108,3 @@ function encodeBoolToString__tabArr($tabArr)
 
     return $tabArr;
 }
-
