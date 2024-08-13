@@ -3,102 +3,40 @@
 namespace Hexlet\Code\gendiff;
 
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
-use function Hexlet\Code\Functions\Standard\encodeBoolToString__tab;
+use function Hexlet\Code\Functions\DataFormats\SelectorEncodeTabArrToFormat;
 use function Hexlet\Code\Functions\DataAggregate\tabDiff;
-use function Hexlet\Code\Functions\Standard\getPathnameByPWD;
+use function Hexlet\Code\Functions\FS\getFilePathnameMainset;
+use function Hexlet\Code\Functions\FS\checkFileMainset;
 
 /**
- * модификация функции encodeTabToString для проекта: мод $row, код-копия
- */
-function encodeTabToString__(array $arr_real, string $setGlue = ' ', string $setBrkt = '{outer}'): string
-{
-    $arr = encodeBoolToString__tab($arr_real);
-
-    $result = '';
-    foreach ($arr as $row_arr) {
-        $row = $row_arr['status'] . ' ' . $row_arr['name'] . ': ' . $row_arr['value'];
-
-        switch ($setBrkt) {
-            case '[]':
-                $row = '[' . $row . ']';
-                break;
-            case '{}':
-                $row = '{' . $row . '}';
-                break;
-        }
-
-        $result .= "$row" . "\n";
-    }
-
-    switch ($setBrkt) {
-        case '[]':
-        case '[outer]':
-            $result = '[' . "\n" . $result . "]\n";
-            break;
-        case '{}':
-        case '{outer}':
-            $result = '{' . "\n" . $result . "}\n";
-            break;
-    }
-
-    return $result;
-}
-
-/**
- * Выбор функции для формат-структура (представление) данных
- *
- */
-function encodeTabToFormats(array $gendiff_result, $format = 'string'): string
-{
-    switch ($format) {
-        case 'text':
-        case 'string':
-            $result = encodeTabToString__($gendiff_result);
-            break;
-        case 'json':
-            $result = json_encode($gendiff_result);
-            break;
-        default:
-            $result = $gendiff_result;
-            break;
-    }
-
-    return $result;
-}
-
-/**
- * Функция-скрипт (функция-скрипт, несколько функций, крупная функция)
+ * Функция-скрипт (функция-скрипт, функция-проект)
  * Структура подобие скрипт:
  * - Аргументы как у скрипта, определяют внутренние опции
  * - кроме выполнения, те не содержит Composer autoload подключение
  * - кроме docopt
  * - кроме Характеристики проект-задача, входящие данные FS: процесс-получение
- *
- * Одноименная функция \Diff\genDiff относится к процесс-обработка данных as gendiff_process
  */
 function gendiff($file1_pathname, $file2_pathname, $format = 'string')
 {
-    ### Задача-часть. Характеристики проект-задача, входящие данные FS: процесс-преобразование (абсолютный)
-    $file1_pathname = getPathnameByPWD($file1_pathname);
-    $file2_pathname = getPathnameByPWD($file2_pathname);
+    ### Задача-часть. Данные FS: характеристики Путь абс
+    $file1_pathname = getFilePathnameMainset($file1_pathname);
+    $file2_pathname = getFilePathnameMainset($file2_pathname);
     // $format = $format ?? 'stylish'; // разрабатывается далее
 
     ### Задача-часть. Данные FS: процесс-проверка
-    if (!file_exists($file1_pathname)) {
-        throw new \exception('Error. файл1 путь относительно WD: ' . $file1_pathname);
-    }
+    checkFileMainset($file1_pathname);
+    checkFileMainset($file2_pathname);
 
-    if (!file_exists($file2_pathname)) {
-        throw new \exception('Error. файл2 путь относительно WD: ' . $file2_pathname);
-    }
-
-    ### Задача-часть. Данные входящие: процесс-обработка diff
-    // Результат (данные исходящие): arr
+    ### Задача-часть. Данные обработка: сравнение совокупности характеристик (обработка, diff) двух файлов
+    // Результат (данные исходящие): формат arr
     $gendiff_result = tabDiff($file1_pathname, $file2_pathname);
 
-    ### Задача-часть. Результат (данные исходящие): формат-структура (представление)
-    $gendiff_toString = encodeTabToFormats($gendiff_result);
+    ### Задача-часть. Данные обработка: формат strings
+    $gendiff_result__formatString = SelectorEncodeTabArrToFormat(
+        $format = 'string', $tabArr = $gendiff_result, $brackets = '[]', $funcItem = function($item) {
+            return $item['status'] . ' ' . $item['name'] . ': ' . $item['value'];
+    });
 
-    ### Задача-часть. Результат (данные исходящие): хранение FS (файл), показ
-    print_r($gendiff_toString);
+    ### Задача-часть. Данные хранение-просмотр: просмотр strings
+    print_r($gendiff_result__formatString);
 }
