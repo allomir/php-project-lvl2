@@ -8,7 +8,7 @@ namespace Hexlet\Code\Functions\DataFormats;
  * Название: Выбор формата-структуры
  *
  */
-function SelectorEncodeTabArrToFormat(string $format = 'string', array $tabArr, string $brackets = '', $funcItem = null)
+function selectorEncodeTabArrToFormat(array $tabArr, string $format = 'string', string $brackets = '', $funcItem = null)
 {
     switch ($format) {
         case 'text':

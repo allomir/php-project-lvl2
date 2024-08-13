@@ -3,7 +3,7 @@
 namespace Hexlet\Code\gendiff;
 
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
-use function Hexlet\Code\Functions\DataFormats\SelectorEncodeTabArrToFormat;
+use function Hexlet\Code\Functions\DataFormats\selectorEncodeTabArrToFormat;
 use function Hexlet\Code\Functions\DataAggregate\tabDiff;
 use function Hexlet\Code\Functions\FS\getFilePathnameMainset;
 use function Hexlet\Code\Functions\FS\checkFileMainset;
@@ -32,9 +32,9 @@ function gendiff($file1_pathname, $file2_pathname, $format = 'string')
     $gendiff_result = tabDiff($file1_pathname, $file2_pathname);
 
     ### Задача-часть. Данные обработка: формат strings
-    $gendiff_result__formatString = SelectorEncodeTabArrToFormat(
-        $format = 'string',
+    $gendiff_result__formatString = selectorEncodeTabArrToFormat(
         $tabArr = $gendiff_result,
+        $format = 'string',
         $brackets = '[]',
         $funcItem = function ($item) {
             return $item['status'] . ' ' . $item['name'] . ': ' . $item['value'];
