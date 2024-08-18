@@ -8,10 +8,10 @@ use PHPUnit\Framework\TestCase;
 use function Hexlet\Code\gendiff\gendiff;
 
 ## Задача-тест.
-class gendiffTest extends TestCase
+class GendiffTest extends TestCase
 {
-    public $diffExpected = 
-"{
+    public $diffExpected =
+    "{
 - follow: false
   host: hexlet.io
 - proxy: 123.234.53.22
