@@ -18,7 +18,7 @@
             "src/Functions/Standard.php",
             "src/Functions/DataAggregate.php",
             "src/Functions/FS.php",
-            "src/Functions/DataFormats.php",
+            "src/Functions/DataTextFormats.php",
             "src/gendiff.php"
         ]
     },

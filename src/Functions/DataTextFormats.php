@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Functions\DataFormats;
+namespace Hexlet\Code\Functions\DataTextFormats;
 
 /**
  * `структуры (представление) данных
