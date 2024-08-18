@@ -3,7 +3,7 @@
 namespace Hexlet\Code\gendiff;
 
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
-use function Hexlet\Code\Functions\DataFormats\selectorEncodeTabArrToFormat;
+use function Hexlet\Code\Functions\DataTextFormats\selectorEncodeTabArrToFormat;
 use function Hexlet\Code\Functions\DataAggregate\tabDiff;
 use function Hexlet\Code\Functions\FS\setFileModel;
 use function Hexlet\Code\Functions\FS\getFilePathnameSet;
