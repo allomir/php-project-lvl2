@@ -5,12 +5,13 @@ namespace Hexlet\Code\Tests;
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
 use PHPUnit\Framework\TestCase;
 
-use function Hexlet\Code\FuncGendiff\gendiff;
+use function Hexlet\Code\gendiff\gendiff;
 
 ## Задача-тест.
-class FuncGendiffTest extends TestCase
+class gendiffTest extends TestCase
 {
-    public $diffExpected = "{
+    public $diffExpected = 
+"{
 - follow: false
   host: hexlet.io
 - proxy: 123.234.53.22
