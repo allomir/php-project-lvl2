@@ -4,7 +4,7 @@ namespace Hexlet\Code\gendiff;
 
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
 use function Hexlet\Code\Functions\DataTextFormats\selectorEncodeTabArrToFormat;
-use function Hexlet\Code\Functions\DataAggregate\tabDiff;
+use function Hexlet\Code\Functions\DataAggregate\gendiff__DataArr;
 use function Hexlet\Code\Functions\FS\setFileModel;
 use function Hexlet\Code\Functions\FS\getFilePathnameSet;
 use function Hexlet\Code\Functions\FS\checkFile__model;
@@ -48,14 +48,16 @@ function gendiff($file1Pathname, $file2Pathname, $format = 'string')
         return $file;
     }, $files);
 
-    ### Задача-часть. Данные обработка: сравнение совокупности характеристик (обработка, diff) двух файлов
+    ### Задача-часть. Данные обработка: сравнение характеристик (обработка, diff) структуры данных
     // $format = $format ?? 'stylish'; // разрабатывается далее
     // Результат (данные исходящие): формат arr
 
     $file1Pathname = $files['0']['pathname'];
+    $data1__Arr = \json_decode(file_get_contents($file1Pathname), true);
     $file2Pathname = $files['1']['pathname'];
+    $data2__Arr = \json_decode(file_get_contents($file2Pathname), true);
 
-    $gendiff_result = tabDiff($file1Pathname, $file2Pathname);
+    $gendiff_result = gendiff__DataArr($data1__Arr, $data2__Arr);
 
     ### Задача-часть. Данные обработка: формат strings
     $gendiff_result__formatString = selectorEncodeTabArrToFormat(

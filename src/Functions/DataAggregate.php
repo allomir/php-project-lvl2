@@ -4,58 +4,54 @@ namespace Hexlet\Code\Functions\DataAggregate;
 
 use function Hexlet\Code\Functions\Standard\getListKeys;
 
-function getDiffStatuses()
+function gendiffSettingStatuses()
 {
     return ['changes_add' => '+', 'changes_delete' => '-', 'changes_no' => ' '];
 }
 
-function tabDiff(string $file1_path, string $file2_path): array
+function gendiff__DataArr(array $data1__Arr, array $data2__Arr): array
 {
-    ### Задача. Данные: Получение
-
-    $file1_arr = \json_decode(file_get_contents($file1_path), true);
-    $file2_arr = \json_decode(file_get_contents($file2_path), true);
 
     ### Задача. Вариант-Алгоритм (решение)
 
-    $properties = getListKeys($file1_arr, $file2_arr);
+    $properties = getListKeys($data1__Arr, $data2__Arr);
     sort($properties);
 
-    $statuses = getDiffStatuses();
+    $statuses = gendiffSettingStatuses();
 
     $properties_diff = [];
     foreach ($properties as $property) {
-        if (!isset($file1_arr[$property]) && isset($file2_arr[$property])) {
+        if (!isset($data1__Arr[$property]) && isset($data2__Arr[$property])) {
             $properties_diff[] = [
                 "status" => $statuses['changes_add'],
-                'name' => $property, 'value' => $file2_arr[$property]
+                'name' => $property, 'value' => $data2__Arr[$property]
             ];
         }
 
-        if (isset($file1_arr[$property]) && !isset($file2_arr[$property])) {
+        if (isset($data1__Arr[$property]) && !isset($data2__Arr[$property])) {
             $properties_diff[] = [
                 "status" => $statuses['changes_delete'],
-                'name' => $property, 'value' => $file1_arr[$property]
+                'name' => $property, 'value' => $data1__Arr[$property]
             ];
         }
 
-        if (isset($file1_arr[$property]) && isset($file2_arr[$property])) {
-            if ($file1_arr[$property] === $file2_arr[$property]) {
+        if (isset($data1__Arr[$property]) && isset($data2__Arr[$property])) {
+            if ($data1__Arr[$property] === $data2__Arr[$property]) {
                 $properties_diff[] = [
                     "status" => $statuses['changes_no'],
                     'name' => $property,
-                    'value' => $file2_arr[$property]
+                    'value' => $data2__Arr[$property]
                 ];
-            } elseif ($file1_arr[$property] !== $file2_arr[$property]) {
+            } elseif ($data1__Arr[$property] !== $data2__Arr[$property]) {
                 $properties_diff[] = [
                     "status" => $statuses['changes_delete'],
                     'name' => $property,
-                    'value' => $file1_arr[$property]
+                    'value' => $data1__Arr[$property]
                 ];
                 $properties_diff[] = [
                     "status" => $statuses['changes_add'],
                     'name' => $property,
-                    'value' => $file2_arr[$property]
+                    'value' => $data2__Arr[$property]
                 ];
             }
         }
