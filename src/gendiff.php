@@ -3,8 +3,10 @@
 namespace Hexlet\Code\gendiff;
 
 ### Настройка проекта. namespace. настройка Composer autoload. список загрузки
-use function Hexlet\Code\Functions\DataTextFormats\selectorEncodeTabArrToFormat;
-use function Hexlet\Code\Functions\DataAggregate\gendiff__DataArr;
+use function Hexlet\Code\Functions\DataTextFormats\readFile__dataText;
+use function Hexlet\Code\Functions\DataTextFormats\encodeDatajsonToDataarr;
+use function Hexlet\Code\Functions\DataTextFormats\encodeDataarrToString;
+use function Hexlet\Code\Functions\DataAggregate\gendiff__dataarr;
 use function Hexlet\Code\Functions\FS\setFileModel;
 use function Hexlet\Code\Functions\FS\getFilePathnameSet;
 use function Hexlet\Code\Functions\FS\checkFile__model;
@@ -48,27 +50,36 @@ function gendiff($file1Pathname, $file2Pathname, $format = 'string')
         return $file;
     }, $files);
 
+    ### Задача-часть. Данные скалярные форматирование в php dataarr
+        // $format = $format ?? 'stylish'; // разрабатывается далее
+    $files_extendedData = [];
+
+    if ($files[0]['extension'] === 'json') {
+        foreach ($files as $file) {
+            $file['datajson'] = readFile__dataText($file['pathname']);
+            $file['dataarr'] = encodeDatajsonToDataarr($file['datajson']);
+            $files_extendedData[] = $file;
+        }
+    }
+
+    $files = $files_extendedData;
+
     ### Задача-часть. Данные обработка: сравнение характеристик (обработка, diff) структуры данных
-    // $format = $format ?? 'stylish'; // разрабатывается далее
     // Результат (данные исходящие): формат arr
+    $file1 = $files[0];
+    $file2 = $files[1];
 
-    $file1Pathname = $files['0']['pathname'];
-    $data1__Arr = \json_decode(file_get_contents($file1Pathname), true);
-    $file2Pathname = $files['1']['pathname'];
-    $data2__Arr = \json_decode(file_get_contents($file2Pathname), true);
+    $result__dataarr = gendiff__dataarr($file1['dataarr'], $file2['dataarr']);
 
-    $gendiff_result = gendiff__DataArr($data1__Arr, $data2__Arr);
-
-    ### Задача-часть. Данные обработка: формат strings
-    $gendiff_result__formatString = selectorEncodeTabArrToFormat(
-        $tabArr = $gendiff_result,
-        $format = 'string',
+    ### Задача-часть. Данные форматирование: формат dataarr-strings
+    $result__strings = encodeDataarrToString(
+        $dataarr = $result__dataarr,
         $brackets = '{}',
-        $funcItem = function ($item) {
+        $string__style = function ($item) {
             return $item['status'] . ' ' . $item['name'] . ': ' . $item['value'];
         }
     );
 
-    ### Задача-часть. Данные хранение-просмотр: просмотр strings
-    print_r($gendiff_result__formatString);
+    ### Задача-часть. Данные просмотр: просмотр strings
+    print_r($result__strings);
 }

@@ -3,57 +3,53 @@
 namespace Hexlet\Code\Functions\DataTextFormats;
 
 /**
- * `структуры (представление) данных
- * Функция-выбор (набор)
- * Название: Выбор формата-структуры
- *
+ * функция открыть (чтения, read) файл для получения данные скалярные
+ *      функция чтения FS зависит от вида файла и программы открытия
+ *      программы чтения скалярных данных (dataText)
+ *      file - хранение данных в FS, уровень выше вида данных dataText
+ *      dataText - виды скалярные структуры (json, yaml, string)
  */
-function selectorEncodeTabArrToFormat(array $tabArr, string $format = 'string', string $brackets = '', $funcItem = null)
+function readFile__dataText($pathname)
 {
-    switch ($format) {
-        case 'text':
-        case 'string':
-            $result = encodeTabArrToString($tabArr, $brackets, $funcItem);
-            break;
-        case 'json':
-            $result = json_encode($tabArr);
-            break;
-        default:
-            $result = $tabArr;
-            break;
-    }
-
-    return $result;
+    return file_get_contents($pathname, true);
+}
+/**
+ * функция представление-формат
+ * $datajson - вид $dataText (скалярные данные текстовые)
+ */
+function encodeDatajsonToDataarr($datajson)
+{
+    return json_decode($datajson, true);
 }
 
 /**
  * `formats
  * функция-лямбда и функция простая
  * Название: преобразование структуры массив свойства-значения в структуру строка
- * $tabArr
+ * $dataarr
  *      массив данных, с помощью функция-лямбда можно определить представление
  * arg $brackets
  *      внешние скобки
  *      - [] все скобки
  *      - {} все скобки
- * $funcItem:
+ * $string__style:
  *      функция-лямбда
  *      return '' . implode(' : ', $item) . '';
  *      return '' . $item['status'] . ' ' . $item['name'] . ': ' . $item['value'] . '';
  */
-function encodeTabArrToString(array $tabArr, string $brackets = '', $funcItem = null)
+function encodeDataarrToString(array $dataarr, string $brackets = '', $string__style = null)
 {
-    $items = encodeBoolToString__tabArr($tabArr);
+    $items = encodeBoolToString__dataarr($dataarr);
 
     $result = '';
     foreach ($items as $item) {
-        if ($funcItem === null) {
-            $item__string = '' . implode(' : ', $item) . '';
+        if ($string__style === null) {
+            $item = '' . implode(' : ', $item) . '';
         } else {
-            $item__string = $funcItem($item);
+            $item = $string__style($item);
         }
 
-        $result .= "$item__string" . "\n";
+        $result .= "$item" . "\n";
     }
 
     switch ($brackets) {
@@ -92,19 +88,19 @@ function encodeBoolToString(bool $bool): string
  * null всегда как '' пустая строка
  * Возвращает и принимает mix строки и массивы
  */
-function encodeBoolToString__tabArr($tabArr)
+function encodeBoolToString__dataarr($dataarr)
 {
-    if (is_array($tabArr)) {
+    if (is_array($dataarr)) {
         $arr = array_map(function ($value) {
-            return encodeBoolToString__tabArr($value);
-        }, $tabArr);
+            return encodeBoolToString__dataarr($value);
+        }, $dataarr);
 
         return $arr;
     }
 
-    if (is_bool($tabArr)) {
-        return encodeBoolToString($tabArr);
+    if (is_bool($dataarr)) {
+        return encodeBoolToString($dataarr);
     }
 
-    return $tabArr;
+    return $dataarr;
 }

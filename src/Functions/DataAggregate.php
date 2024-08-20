@@ -9,49 +9,48 @@ function gendiffSettingStatuses()
     return ['changes_add' => '+', 'changes_delete' => '-', 'changes_no' => ' '];
 }
 
-function gendiff__DataArr(array $data1__Arr, array $data2__Arr): array
+function gendiff__dataarr(array $dataarr1, array $dataarr2): array
 {
 
     ### Задача. Вариант-Алгоритм (решение)
-
-    $properties = getListKeys($data1__Arr, $data2__Arr);
+    $properties = getListKeys($dataarr1, $dataarr2);
     sort($properties);
 
     $statuses = gendiffSettingStatuses();
 
     $properties_diff = [];
     foreach ($properties as $property) {
-        if (!isset($data1__Arr[$property]) && isset($data2__Arr[$property])) {
+        if (!isset($dataarr1[$property]) && isset($dataarr2[$property])) {
             $properties_diff[] = [
                 "status" => $statuses['changes_add'],
-                'name' => $property, 'value' => $data2__Arr[$property]
+                'name' => $property, 'value' => $dataarr2[$property]
             ];
         }
 
-        if (isset($data1__Arr[$property]) && !isset($data2__Arr[$property])) {
+        if (isset($dataarr1[$property]) && !isset($dataarr2[$property])) {
             $properties_diff[] = [
                 "status" => $statuses['changes_delete'],
-                'name' => $property, 'value' => $data1__Arr[$property]
+                'name' => $property, 'value' => $dataarr1[$property]
             ];
         }
 
-        if (isset($data1__Arr[$property]) && isset($data2__Arr[$property])) {
-            if ($data1__Arr[$property] === $data2__Arr[$property]) {
+        if (isset($dataarr1[$property]) && isset($dataarr2[$property])) {
+            if ($dataarr1[$property] === $dataarr2[$property]) {
                 $properties_diff[] = [
                     "status" => $statuses['changes_no'],
                     'name' => $property,
-                    'value' => $data2__Arr[$property]
+                    'value' => $dataarr2[$property]
                 ];
-            } elseif ($data1__Arr[$property] !== $data2__Arr[$property]) {
+            } elseif ($dataarr1[$property] !== $dataarr2[$property]) {
                 $properties_diff[] = [
                     "status" => $statuses['changes_delete'],
                     'name' => $property,
-                    'value' => $data1__Arr[$property]
+                    'value' => $dataarr1[$property]
                 ];
                 $properties_diff[] = [
                     "status" => $statuses['changes_add'],
                     'name' => $property,
-                    'value' => $data2__Arr[$property]
+                    'value' => $dataarr2[$property]
                 ];
             }
         }
